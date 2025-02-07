@@ -7,6 +7,7 @@ import com.mapbox.api.staticmap.v1.models.StaticMarkerAnnotation
 import com.mapbox.api.staticmap.v1.models.StaticPolylineAnnotation
 import com.mapbox.geojson.Point
 import com.mapbox.geojson.utils.PolylineUtils
+import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions
 import com.mapbox.maps.plugin.annotation.generated.PolygonAnnotation
 import com.mapbox.maps.plugin.annotation.generated.PolygonAnnotationOptions
 import com.mapbox.search.result.SearchSuggestion
@@ -96,6 +97,15 @@ object MapboxUtils : KoinComponent {
                 .withFillOutlineColor(resources.getColor(R.color.white))
                 .withData(gson.toJsonTree(UICell(it.index, it.center)))
                 .withPoints(polygonPointsToLatLng(it.polygon))
+        }
+    }
+
+    fun List<PublicHex>.toPointAnnotationOptions(): List<PointAnnotationOptions> {
+        return map {
+            PointAnnotationOptions()
+                .withPoint(Point.fromLngLat(it.center.lon, it.center.lat))
+                .withTextField(it.deviceCount?.toString() ?: "")
+                .withTextColor(resources.getColor(R.color.dark_text))
         }
     }
 

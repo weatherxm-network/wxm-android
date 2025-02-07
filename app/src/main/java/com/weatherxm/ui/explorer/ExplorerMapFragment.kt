@@ -6,6 +6,7 @@ import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.MenuItem
 import androidx.activity.addCallback
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.google.android.material.search.SearchView.TransitionState
@@ -19,6 +20,7 @@ import com.mapbox.maps.extension.style.sources.generated.GeoJsonSource
 import com.mapbox.maps.extension.style.sources.getSource
 import com.mapbox.maps.plugin.animation.MapAnimationOptions
 import com.mapbox.maps.plugin.animation.flyTo
+import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions
 import com.mapbox.maps.plugin.annotation.generated.PolygonAnnotationOptions
 import com.mapbox.maps.plugin.gestures.addOnMapClickListener
 import com.mapbox.maps.plugin.locationcomponent.location
@@ -41,6 +43,8 @@ import com.weatherxm.ui.networkstats.NetworkStatsActivity
 import com.weatherxm.util.MapboxUtils
 import com.weatherxm.util.Validator
 import dev.chrisbanes.insetter.applyInsetter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -59,6 +63,7 @@ class ExplorerMapFragment : BaseMapFragment() {
 
     private lateinit var adapter: NetworkSearchResultsListAdapter
     private var useSearchOnTextChangedListener = true
+    private var labelsShown = false
 
     override fun onMapReady(map: MapboxMap) {
         binding.appBar.applyInsetter {
@@ -100,6 +105,15 @@ class ExplorerMapFragment : BaseMapFragment() {
 
         map.subscribeCameraChanged {
             model.setCurrentCamera(it.cameraState.zoom, it.cameraState.center)
+            lifecycleScope.launch(Dispatchers.IO) {
+                if (it.cameraState.zoom >= ZOOMED_IN_ZOOM_LEVEL && !labelsShown) {
+                    labelsShown = true
+                    pointManager.textSize = 14.0
+                } else if(it.cameraState.zoom < ZOOMED_IN_ZOOM_LEVEL && labelsShown) {
+                    labelsShown = false
+                    pointManager.textSize = 0.0
+                }
+            }
         }
 
         getMapView().location.updateSettings {
@@ -332,6 +346,7 @@ class ExplorerMapFragment : BaseMapFragment() {
             mapStyle?.addLayerAbove(model.heatmapLayer, "waterway-label")
         }
         onPolygonPointsUpdated(data.polygonsToDraw)
+        onPointsUpdated(data.pointsToDraw)
     }
 
     override fun onResume() {
@@ -371,6 +386,17 @@ class ExplorerMapFragment : BaseMapFragment() {
         }
 
         polygonManager.create(polygonsToDraw)
+    }
+
+
+    // TODO: Add results. 1. labels on zoomed out state. 2. kollima/lag, pws?
+    private fun onPointsUpdated(pointsToDraw: List<PointAnnotationOptions>) {
+        if (pointsToDraw.isEmpty()) {
+            Timber.d("No new points found. Skipping map update.")
+            return
+        }
+
+        pointManager.create(pointsToDraw)
     }
 
     override fun getMapStyle(): String {

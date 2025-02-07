@@ -21,6 +21,7 @@ import com.weatherxm.ui.components.BaseMapFragment.Companion.ZOOMED_IN_ZOOM_LEVE
 import com.weatherxm.usecases.ExplorerUseCase
 import com.weatherxm.util.Failure.getDefaultMessage
 import com.weatherxm.util.LocationHelper
+import com.weatherxm.util.MapboxUtils.toPointAnnotationOptions
 import com.weatherxm.util.MapboxUtils.toPolygonAnnotationOptions
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -225,6 +226,7 @@ class ExplorerViewModel(
                      * The explorer map is empty so send all the hexes to be drawn
                      */
                     response.polygonsToDraw = response.publicHexes.toPolygonAnnotationOptions()
+                    response.pointsToDraw = response.publicHexes.toPointAnnotationOptions()
                     onExplorerData.postValue(response)
                 } else {
                     val newHexes = mutableListOf<PublicHex>()
