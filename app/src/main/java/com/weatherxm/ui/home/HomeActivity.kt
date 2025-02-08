@@ -80,8 +80,11 @@ class HomeActivity : BaseActivity(), BaseMapFragment.OnMapDebugInfoListener {
         }
 
         devicesViewModel.devices().observe(this) {
-            if (navController.currentDestination?.id == R.id.navigation_devices) {
+            val currentDestination = navController.currentDestination?.id
+            if (it.status == Status.SUCCESS && currentDestination == R.id.navigation_devices) {
                 checkForClaimingPrompt()
+            } else {
+                binding.claimStationHere.visible(false)
             }
         }
 
