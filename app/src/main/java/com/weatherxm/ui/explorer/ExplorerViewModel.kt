@@ -26,6 +26,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import kotlin.system.measureTimeMillis
 
 @Suppress("TooManyFunctions")
 class ExplorerViewModel(
@@ -288,6 +289,31 @@ class ExplorerViewModel(
     @SuppressLint("MissingPermission")
     fun getLocation(onLocation: (location: Location?) -> Unit) {
         locationHelper.getLocationAndThen(onLocation)
+    }
+
+    fun getActiveStationsInViewPort(
+        northLat: Double,
+        southLat: Double,
+        eastLon: Double,
+        westLon: Double
+    ) {
+        val timeUsed = measureTimeMillis {
+            viewModelScope.launch {
+                val activeStations = onExplorerData.value?.publicHexes?.sumOf {
+                    if (it.center.lat in southLat..northLat && it.center.lon in westLon..eastLon) {
+                        it.deviceCount ?: 0
+                    } else {
+                        0
+                    }
+                } ?: 0
+                // STOPSHIP: Remove the logs here.
+                println("----------------------------------------------------------------------")
+                println("ACTIVE STATIONS IN VIEW PORT")
+                println(activeStations)
+            }
+        }
+        println("CALCULATED IN: $timeUsed milliseconds")
+        println("----------------------------------------------------------------------")
     }
 
     init {

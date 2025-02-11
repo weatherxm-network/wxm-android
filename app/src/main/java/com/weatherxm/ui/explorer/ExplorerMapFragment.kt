@@ -13,6 +13,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.MapboxMap
+import com.mapbox.maps.extension.observable.eventdata.MapIdleEventData
 import com.mapbox.maps.extension.style.layers.addLayerAbove
 import com.mapbox.maps.extension.style.sources.addSource
 import com.mapbox.maps.extension.style.sources.generated.GeoJsonSource
@@ -20,8 +21,10 @@ import com.mapbox.maps.extension.style.sources.getSource
 import com.mapbox.maps.plugin.animation.MapAnimationOptions
 import com.mapbox.maps.plugin.animation.flyTo
 import com.mapbox.maps.plugin.annotation.generated.PolygonAnnotationOptions
+import com.mapbox.maps.plugin.delegates.listeners.OnMapIdleListener
 import com.mapbox.maps.plugin.gestures.addOnMapClickListener
 import com.mapbox.maps.plugin.locationcomponent.location
+import com.mapbox.maps.toCameraOptions
 import com.weatherxm.R
 import com.weatherxm.analytics.AnalyticsService
 import com.weatherxm.ui.common.Resource
@@ -102,9 +105,14 @@ class ExplorerMapFragment : BaseMapFragment() {
             model.setCurrentCamera(it.cameraState.zoom, it.cameraState.center)
         }
 
+        map.subscribeMapIdle {
+            with(map.coordinateBoundsForCamera(map.cameraState.toCameraOptions())) {
+                model.getActiveStationsInViewPort(north(), south(), east(), west())
+            }
+        }
+
         getMapView().location.updateSettings {
             enabled = true
-            pulsingEnabled = true
         }
 
         setSearchListeners()
