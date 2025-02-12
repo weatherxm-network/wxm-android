@@ -61,6 +61,38 @@
         app:layout_dodgeInsetEdges="bottom"
         app:menu="@menu/bottom_nav_menu" />
 
+    <LinearLayout
+        android:id="@+id/claimStationHere"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:translationX="-80dp"
+        android:translationY="-10dp"
+        android:visibility="gone"
+        app:layout_anchor="@id/add_device"
+        app:layout_anchorGravity="top|start"
+        tools:visibility="visible">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/claim_station_here"
+            android:textAppearance="@style/TextAppearance.WeatherXM.Default.BodySmall" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/claimAnimation"
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/margin_small"
+            android:rotation="152"
+            android:scaleType="centerInside"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="false"
+            app:lottie_rawRes="@raw/anim_arrow" />
+    </LinearLayout>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_device"
         android:layout_width="wrap_content"

@@ -279,6 +279,62 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
+                <LinearLayout
+                    android:id="@+id/emptyContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBackground"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="@dimen/padding_normal"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/infoBanner">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_normal"
+                        android:gravity="center"
+                        android:text="@string/join_the_network"
+                        android:textAppearance="@style/TextAppearance.WeatherXM.Default.HeadlineSmall"
+                        android:textSize="26sp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:gravity="center"
+                        android:text="@string/join_the_network_subtitle"
+                        android:textAppearance="@style/TextAppearance.WeatherXM.Default.BodyMedium" />
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/margin_large"
+                        android:scaleType="centerInside"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/anim_network" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buyStationBtn"
+                        style="@style/Widget.WeatherXM.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_large"
+                        android:text="@string/action_buy_station" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/followStationExplorerBtn"
+                        style="@style/Widget.WeatherXM.TextButton.Subtle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_small_to_normal"
+                        android:text="@string/action_follow_a_station_in_explorer" />
+
+                </LinearLayout>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
@@ -289,7 +345,7 @@
     <!-- Empty -->
 
     <com.weatherxm.ui.components.EmptyView
-        android:id="@+id/empty"
+        android:id="@+id/statusView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
@@ -297,7 +353,6 @@
         android:visibility="gone"
         app:empty_animation="@raw/anim_empty_devices"
         tools:empty_subtitle="How are you?"
-        tools:empty_title="Nothing here"
-        tools:visibility="visible" />
+        tools:empty_title="Nothing here" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

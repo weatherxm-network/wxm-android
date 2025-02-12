@@ -79,7 +79,16 @@ class HomeActivity : BaseActivity(), BaseMapFragment.OnMapDebugInfoListener {
             }
         }
 
-        /*
+        devicesViewModel.devices().observe(this) {
+            val currentDestination = navController.currentDestination?.id
+            if (it.status == Status.SUCCESS && currentDestination == R.id.navigation_devices) {
+                checkForClaimingPrompt()
+            } else {
+                binding.claimStationHere.visible(false)
+            }
+        }
+
+        /**
          * Show/hide FAB and devices count label
          * based on selected navigation item and dismiss snackbar if shown
          */
@@ -136,16 +145,29 @@ class HomeActivity : BaseActivity(), BaseMapFragment.OnMapDebugInfoListener {
         }
     }
 
+    private fun checkForClaimingPrompt() {
+        if (devicesViewModel.hasNoDevices()) {
+            binding.claimStationHere.visible(true)
+            binding.claimAnimation.playAnimation()
+        }
+    }
+
     private fun onNavigationChanged(destination: NavDestination) {
         if (snackbar?.isShown == true) snackbar?.dismiss()
         when (destination.id) {
-            R.id.navigation_devices -> binding.addDevice.show()
+            R.id.navigation_devices -> {
+                checkForClaimingPrompt()
+                binding.addDevice.show()
+            }
             R.id.navigation_explorer -> {
                 explorerModel.setExplorerAfterLoggedIn(true)
+                binding.claimStationHere.visible(false)
                 binding.addDevice.hide()
             }
-
-            else -> binding.addDevice.hide()
+            else -> {
+                binding.claimStationHere.visible(false)
+                binding.addDevice.hide()
+            }
         }
         binding.navView.show()
         binding.networkStatsBtn.visible(destination.id == R.id.navigation_explorer)

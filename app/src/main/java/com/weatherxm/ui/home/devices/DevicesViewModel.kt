@@ -15,6 +15,7 @@ import com.weatherxm.ui.common.DevicesRewards
 import com.weatherxm.ui.common.DevicesSortFilterOptions
 import com.weatherxm.ui.common.DevicesSortOrder
 import com.weatherxm.ui.common.Resource
+import com.weatherxm.ui.common.Status
 import com.weatherxm.ui.common.UIDevice
 import com.weatherxm.usecases.DeviceListUseCase
 import com.weatherxm.usecases.FollowUseCase
@@ -41,6 +42,9 @@ class DevicesViewModel(
     fun devices(): LiveData<Resource<List<UIDevice>>> = devices
     fun onDevicesRewards(): LiveData<DevicesRewards> = onDevicesRewards
     fun onUnFollowStatus(): LiveData<Resource<Unit>> = onUnFollowStatus
+
+    fun hasNoDevices() =
+        devices.value?.status == Status.SUCCESS && devices.value?.data.isNullOrEmpty()
 
     fun fetch() {
         this@DevicesViewModel.devices.postValue(Resource.loading())

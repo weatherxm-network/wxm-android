@@ -122,6 +122,9 @@ class DevicesViewModelTest : BehaviorSpec({
                     1,
                     REACH_OUT_MSG
                 )
+                then("The function `hasNoDevices` should return false") {
+                    viewModel.hasNoDevices() shouldBe false
+                }
             }
             When("it's a success") {
                 coMockEitherRight({ deviceListUseCase.getUserDevices() }, devices)
@@ -129,9 +132,22 @@ class DevicesViewModelTest : BehaviorSpec({
                 then("LiveData should post the updated devices value") {
                     viewModel.devices().isSuccess(devices)
                 }
+                then("The function `hasNoDevices` should return false") {
+                    viewModel.hasNoDevices() shouldBe false
+                }
                 and("calculate the rewards from the devices") {
                     then("LiveData onDevicesRewards should post the respective DevicesRewards") {
                         viewModel.onDevicesRewards().value shouldBe devicesRewards
+                    }
+                }
+                When("the user has no devices") {
+                    coMockEitherRight(
+                        { deviceListUseCase.getUserDevices() },
+                        mutableListOf<UIDevice>()
+                    )
+                    runTest { viewModel.fetch() }
+                    then("The function `hasNoDevices` should return true") {
+                        viewModel.hasNoDevices() shouldBe true
                     }
                 }
             }
