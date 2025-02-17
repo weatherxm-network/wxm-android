@@ -39,8 +39,6 @@ class CurrentWeatherWidgetTile : AppWidgetProvider(), KoinComponent {
 
     @Suppress("MagicNumber")
     override fun onReceive(context: Context, intent: Intent?) {
-        super.onReceive(context, intent)
-
         // These variables are useful for identifying what type of update to do
         val extras = intent?.extras
         val appWidgetId =
