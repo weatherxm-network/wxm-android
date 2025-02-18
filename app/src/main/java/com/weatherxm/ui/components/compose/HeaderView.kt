@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -30,7 +32,13 @@ fun HeaderView(
         ) {
             Title(title)
             onInfoButton?.let {
-                IconButton(onClick = { onInfoButton() }, modifier = Modifier.size(20.dp)) {
+                IconButton(
+                    onClick = { onInfoButton() },
+                    colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = colorResource(R.color.colorOnSurface)
+                    ),
+                    modifier = Modifier.size(20.dp)
+                ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_learn_more_info),
                         contentDescription = stringResource(R.string.read_more)
@@ -44,6 +52,7 @@ fun HeaderView(
     }
 }
 
+// tint = colorResource(data.action.foregroundTint),
 @Suppress("FunctionNaming")
 @Preview
 @Composable

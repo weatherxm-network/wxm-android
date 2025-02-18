@@ -12,6 +12,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -61,6 +62,9 @@ fun InfoBannerView(
             if (showCloseButton) {
                 IconButton(
                     onClick = { onClose?.invoke() },
+                    colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = colorResource(R.color.colorOnSurface)
+                    ),
                     modifier = Modifier.size(22.dp)
                 ) {
                     Icon(

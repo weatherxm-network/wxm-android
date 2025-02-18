@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -37,24 +36,12 @@ fun PhotoUploadState(state: UploadPhotosState, showStationName: Boolean) {
                     color = colorResource(R.color.colorOnSurface)
                 )
                 if (state.isSuccess) {
-                    Text(
-                        text = stringResource(R.string.photo_upload_completed),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = colorResource(R.color.colorOnSurface)
-                    )
+                    MediumText(text = stringResource(R.string.photo_upload_completed))
                 } else {
-                    Text(
-                        text = stringResource(R.string.uploading),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = colorResource(R.color.colorOnSurface)
-                    )
+                    MediumText(text = stringResource(R.string.uploading))
                 }
             } else {
-                Text(
-                    text = stringResource(R.string.upload_failed_retry),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = colorResource(R.color.colorOnSurface)
-                )
+                MediumText(text = stringResource(R.string.upload_failed_retry))
             }
         }
         if (!state.isError) {
@@ -68,10 +55,9 @@ fun PhotoUploadState(state: UploadPhotosState, showStationName: Boolean) {
             )
         }
         if (showStationName) {
-            Text(
+            SmallText(
                 text = state.device.getDefaultOrFriendlyName(),
-                style = MaterialTheme.typography.bodySmall,
-                color = colorResource(R.color.darkGrey)
+                colorRes = R.color.darkGrey
             )
         }
     }

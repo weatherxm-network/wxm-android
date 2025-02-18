@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:clipChildren="false"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -69,14 +68,22 @@
         app:empty_animation="@raw/anim_loading"
         tools:visibility="visible" />
 
-    <com.weatherxm.ui.components.EmptyRewardsCardView
+    <FrameLayout
         android:id="@+id/emptyRewardsCard"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_large"
-        android:layout_marginTop="@dimen/margin_large"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:visibility="gone"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        tools:visibility="visible" />
+        tools:visibility="visible">
+
+        <com.weatherxm.ui.components.EmptyRewardsCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_large"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+    </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
