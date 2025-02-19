@@ -9,6 +9,7 @@ import com.weatherxm.ui.common.Contracts
 import com.weatherxm.ui.common.Contracts.ARG_DEVICE
 import com.weatherxm.ui.common.Contracts.ARG_INSTRUCTIONS_ONLY
 import com.weatherxm.ui.common.UIDevice
+import com.weatherxm.ui.common.classSimpleName
 import com.weatherxm.ui.common.parcelable
 import com.weatherxm.ui.components.ActionDialogFragment
 import com.weatherxm.ui.components.BaseActivity
@@ -41,6 +42,15 @@ class PhotoVerificationIntroActivity : BaseActivity() {
         if (viewModel.getAcceptedTerms() && !instructionsOnly) {
             navigator.showPhotoGallery(null, this, device, stationPhotoUrls, true)
             finish()
+        }
+        if (instructionsOnly) {
+            analytics.trackScreen(
+                AnalyticsService.Screen.STATION_PHOTOS_INSTRUCTIONS, classSimpleName()
+            )
+        } else {
+            analytics.trackScreen(
+                AnalyticsService.Screen.STATION_PHOTOS_INTRO, classSimpleName()
+            )
         }
     }
 

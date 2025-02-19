@@ -65,7 +65,10 @@ interface AnalyticsService {
         DEVICE_FORECAST_DETAILS("Device Forecast Details"),
         CLAIM_DAPP("Claim Dapp"),
         TEMPERATURE_BARS_EXPLANATION("Temperature Bars Explanation"),
-        REWARD_ANALYTICS("Reward Analytics")
+        REWARD_ANALYTICS("Reward Analytics"),
+        STATION_PHOTOS_INSTRUCTIONS("Station Photos Instructions"),
+        STATION_PHOTOS_INTRO("Station Photos Intro"),
+        STATION_PHOTOS_GALLERY("Station Photos Gallery")
     }
 
     // Custom Event Names

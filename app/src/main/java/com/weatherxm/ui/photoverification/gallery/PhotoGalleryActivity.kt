@@ -36,6 +36,7 @@ import com.weatherxm.ui.common.Contracts.ARG_NEW_PHOTO_VERIFICATION
 import com.weatherxm.ui.common.StationPhoto
 import com.weatherxm.ui.common.Status
 import com.weatherxm.ui.common.UIDevice
+import com.weatherxm.ui.common.classSimpleName
 import com.weatherxm.ui.common.disable
 import com.weatherxm.ui.common.empty
 import com.weatherxm.ui.common.enable
@@ -150,6 +151,7 @@ class PhotoGalleryActivity : BaseActivity() {
         if (model.photos.isEmpty()) {
             binding.addPhotoBtn.performClick()
         }
+        analytics.trackScreen(AnalyticsService.Screen.STATION_PHOTOS_GALLERY, classSimpleName())
     }
 
     override fun onResume() {
