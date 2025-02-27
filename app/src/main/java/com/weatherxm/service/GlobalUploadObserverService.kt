@@ -24,6 +24,7 @@ class GlobalUploadObserverService(
 ) : RequestObserverDelegate {
     private var device = UIDevice.empty()
     private var numberOfPhotosToUpload = 0
+    private var currentUploadedPhotos = 0
     private var photosProgress = mutableMapOf<String, Int>()
     private val onUploadPhotosState = MutableSharedFlow<UploadPhotosState>(
         replay = 1,
@@ -57,8 +58,9 @@ class GlobalUploadObserverService(
     ) {
         Timber.d("[UPLOAD SERVICE] Success: $serverResponse | $uploadInfo")
         photosProgress[uploadInfo.uploadId] = uploadInfo.progressPercent
+        currentUploadedPhotos += 1
 
-        if (getAverageProgress() == 100 && photosProgress.size == numberOfPhotosToUpload) {
+        if (getAverageProgress() == 100 && currentUploadedPhotos == numberOfPhotosToUpload) {
             Timber.d("[UPLOAD SERVICE] All photos uploaded successfully.")
             analytics.trackEventViewContent(
                 contentName = AnalyticsService.ParamValue.UPLOADING_PHOTOS_SUCCESS.paramValue,
@@ -130,6 +132,7 @@ class GlobalUploadObserverService(
     fun setData(device: UIDevice, numberOfPhotosToUpload: Int) {
         this.device = device
         this.numberOfPhotosToUpload = numberOfPhotosToUpload
+        this.currentUploadedPhotos = 0
         photosProgress = mutableMapOf()
     }
 
