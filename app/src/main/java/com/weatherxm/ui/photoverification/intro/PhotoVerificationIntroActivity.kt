@@ -2,6 +2,7 @@ package com.weatherxm.ui.photoverification.intro
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import androidx.activity.addCallback
 import com.weatherxm.R
 import com.weatherxm.analytics.AnalyticsService
 import com.weatherxm.databinding.ActivityPhotoVerificationIntroBinding
@@ -63,6 +64,12 @@ class PhotoVerificationIntroActivity : BaseActivity() {
                     finish()
                 }
             } else {
+                onBackPressedDispatcher.addCallback {
+                    analytics.trackEventUserAction(
+                        AnalyticsService.ParamValue.EXIT_PHOTO_VERIFICATION.paramValue
+                    )
+                    finish()
+                }
                 onIntroScreen(
                     onClose = {
                         ActionDialogFragment
