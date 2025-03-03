@@ -68,7 +68,7 @@ firebase-perf-plugin = "1.4.2"
 google-services-plugin = "4.4.2"
 grgit = "5.3.0"
 kotlin = "2.1.10"
-ksp-plugin = "2.1.10-1.0.30"
+ksp-plugin = "2.1.10-1.0.31"
 
 [libraries]
 androidx-activity = { module = "androidx.activity:activity", version.ref = "androidx-activity" }
